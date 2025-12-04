@@ -37,6 +37,7 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
+            -f ${{ env.DOCKER_CONTEXT }}/Dockerfile \
             -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest \
             ${{ env.DOCKER_CONTEXT }}
