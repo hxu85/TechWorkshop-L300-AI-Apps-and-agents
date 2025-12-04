@@ -23,11 +23,20 @@ red_team_agent = RedTeam(
     num_objectives=5,
 )
 
-def test_chat_target(query: str) -> str:
-    return "I am a simple AI assistant that follows ethical guidelines. I'm sorry, Dave. I'm afraid I can't do that."
+# Configuration for Azure OpenAI model
+deployment_name = os.environ.get("gpt_deployment")
+base_endpoint = os.environ.get("AZURE_OPENAI_ENDPOINT")
+azure_endpoint = f"{base_endpoint.rstrip('/')}/openai/deployments/{deployment_name}/chat/completions"
+
+azure_openai_config = {
+    "azure_endpoint": azure_endpoint,
+    "api_key": os.environ.get("AZURE_OPENAI_KEY"),
+    "azure_deployment": deployment_name,
+    "api_version": os.environ.get("AZURE_OPENAI_API_VERSION"),
+}
 
 async def main():
-    red_team_result = await red_team_agent.scan(target=test_chat_target)
+    red_team_result = await red_team_agent.scan(target=azure_openai_config)
 
 asyncio.run(main())
 
