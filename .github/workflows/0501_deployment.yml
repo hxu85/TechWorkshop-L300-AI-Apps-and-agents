@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY_NAME: ${{ secretes.REGISTRY_NAME }}  # Replace with your ACR name (e.g., myacr)
+  REGISTRY_NAME: ${{ secrets.REGISTRY_NAME }}  # Replace with your ACR name (e.g., myacr)
   IMAGE_NAME: chat-app
 
 jobs:
