@@ -35,12 +35,11 @@ jobs:
           echo "✓ .env file created in src/ directory"
 
       - name: Build Docker image
-        working-directory: ${{ env.DOCKER_CONTEXT }}
         run: |
           docker build \
             -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
             -t ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest \
-            .
+            ${{ env.DOCKER_CONTEXT }}
 
       - name: Push Docker image
         run: |
