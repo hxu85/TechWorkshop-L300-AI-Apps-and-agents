@@ -54,5 +54,5 @@ out/
 *.azuredevops
 
 # Github
-.github/
+# .github/
 parameters.json
