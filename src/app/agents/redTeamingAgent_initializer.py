@@ -10,17 +10,23 @@ load_dotenv()
 # Azure AI Project Information
 azure_ai_project = os.getenv("AZURE_AI_AGENT_ENDPOINT")
 
-# Instantiate your AI Red Teaming Agent
+# # Instantiate your AI Red Teaming Agent
+# red_team_agent = RedTeam(
+#     azure_ai_project=azure_ai_project,
+#     credential=DefaultAzureCredential(),
+#     risk_categories=[
+#         RiskCategory.Violence,
+#         RiskCategory.HateUnfairness,
+#         RiskCategory.Sexual,
+#         RiskCategory.SelfHarm
+#     ],
+#     num_objectives=5,
+# )
+
 red_team_agent = RedTeam(
     azure_ai_project=azure_ai_project,
     credential=DefaultAzureCredential(),
-    risk_categories=[
-        RiskCategory.Violence,
-        RiskCategory.HateUnfairness,
-        RiskCategory.Sexual,
-        RiskCategory.SelfHarm
-    ],
-    num_objectives=5,
+    custom_attack_seed_prompts="data/custom_attack_prompts.json",
 )
 
 # # Configuration for Azure OpenAI model
@@ -43,7 +49,12 @@ chat_target = OpenAIChatTarget(
 ) 
 
 async def main():
-    red_team_result = await red_team_agent.scan(target=chat_target)
+    red_team_result = await red_team_agent.scan(
+        target=chat_target,
+        scan_name="Red Team Scan - Easy Strategies",
+        attack_strategies=[
+            AttackStrategy.EASY
+        ])
 
 asyncio.run(main())
 
